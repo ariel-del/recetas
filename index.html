@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro de Recetas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+       <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="appReceta">
+    <div class="left-panel">
+        <h1>El libro de recetas</h1>
+        <h3>Seleccione la receta</h3>
+        <input type="text" placeholder="Buscar..." v-model="search">
+        <ul>
+            <li v-for="receta in filteredRecetas" :key="receta.id" @click="selectReceta(receta)">
+                <a href="#">{{ receta.nombre }}</a>
+            </li>
+        </ul>
+        <button @click="show_add_receta = !show_add_receta">
+            Agregar nueva receta
+        </button>
+        <div v-show="show_add_receta">
+            <input type="text" placeholder="Nombre..." v-model="newReceta.nombre">
+            <textarea placeholder="Descripción..." v-model="newReceta.descripcion"></textarea>
+            <input type="text" placeholder="Chef..." v-model="newReceta.chef">
+            <div v-for="(ingredient, index) in newReceta.ingredientes" :key="index" class="ingredient-list">
+                <input type="text" v-model="ingredient.nombre" placeholder="Ingrediente...">
+                <button @click="removeIngredient(index)">-</button>
+            </div>
+            <button @click="addIngredient">Añadir Ingrediente</button>
+            <button @click="addReceta">Guardar Receta</button>
+        </div>
+    </div>
+    <div class="right-panel" v-if="selectedReceta">
+        <h3>{{ selectedReceta.nombre }}</h3>
+        <h4>Chef: {{ selectedReceta.chef }}</h4>
+        <h4>Ingredientes:</h4>
+        <ul>
+            <li v-for="ingrediente in selectedReceta.ingredientes" :key="ingrediente.id">
+                {{ ingrediente.nombre }}
+            </li>
+        </ul>
+        <p>{{ selectedReceta.descripcion }}</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
